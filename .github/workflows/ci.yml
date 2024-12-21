@@ -1,23 +1,42 @@
-name: Matrix environment variables
+name: Push and schedule
 
-on: push
+on:
+  push:
+    branches: '*'
+  pull_request:
+    branches: '*'
+  schedule:
+    - cron: '*/5 * * * *'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        fruit:
-          - Apple
-          - Banana
-        meal:
-          - Breakfast
-          - Lunch
     steps:
     - name: Single step
-      env:
-         DEMO_FRUIT: ${{ matrix.fruit }}
-         DEMO_MEAL:  ${{ matrix.meal }}
       run: |
-        echo $DEMO_FRUIT for $DEMO_MEAL
+        echo Hello World
+        echo $GITHUB_EVENT_NAME
+
+    - name: Look around
+      run: |
+        printenv | sort
+
+    - name: Conditional step (push)
+      if: ${{ github.event_name == 'push' }}
+      run: |
+        echo "Only run on a push"
+
+    - name: Conditional step (schedule)
+      if: ${{ github.event_name == 'schedule' }}
+      run: |
+        echo "Only run in schedule"
+
+    - name: Conditional step (pull_request)
+      if: ${{ github.event_name == 'pull_request' }}
+      run: |
+        echo "Only run in pull-request"
+
+
+    - name: Step after
+      run: |
+        echo "Always run"
