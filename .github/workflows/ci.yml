@@ -1,19 +1,30 @@
-name: Shell
+name: Minimal Ubuntu
 
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
+on: push
 
 jobs:
   build:
-    runs-on: self-hosted
-    name: Build
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+    - name: Single step
+      run: echo Hello World
 
-      - name: Shell - View environment
-        run: |
-          uname -a
-          printenv | sort
-
+    - name: Look around
+      run: |
+        uname -a
+        pwd     # /home/runner/work/REPO/REPO
+        whoami  # runner
+        uptime
+        which perl
+        which python
+        which python3
+        which ruby
+        which node
+        which java
+        perl -v
+        python -V
+        python3 -V
+        ruby -v
+        node -v
+        javac -version
+        java -version
