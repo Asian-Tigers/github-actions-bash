@@ -16,7 +16,7 @@ jobs:
 
     - name: Look around
       run: |
-        printenv | sort
+        printenv 
 
     - name: Conditional step (push)
       if: ${{ github.event_name == 'push' }}
@@ -32,7 +32,6 @@ jobs:
       if: ${{ github.event_name == 'pull_request' }}
       run: |
         echo "Only run in pull-request"
-
 
     - name: Step after
       run: |
